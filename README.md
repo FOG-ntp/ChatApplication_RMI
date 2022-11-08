@@ -1,4 +1,4 @@
-# RMI_ChatApp
+# RMI_ChatApp 💻
 A Chat application using java remote method invocation
 
 ### A third year college project :mortar_board: :three:  
