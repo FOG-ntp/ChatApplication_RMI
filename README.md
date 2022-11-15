@@ -1,7 +1,7 @@
-# RMI_ChatApp 💻
+## RMI_ChatApp 💻
 A Chat application using java remote method invocation
 
-### A third year college project :mortar_board: :three:  
+### ▷ A third year college project :mortar_board: :three:  
 
 This is a project to build a client-server chat application using java RMI technology
 The directories included in this repo:  
@@ -10,7 +10,7 @@ The directories included in this repo:
 	- Server: The code for the central server.  
  
 
-### Features:  
+### ▷ Features:  
 - The appplication follows a hub and spoke topology, with the server as the hub.
 - Clients logon to the system with a username
 - Clients can send a normal chat message(broadcast to all clients)
@@ -18,7 +18,7 @@ The directories included in this repo:
 - Server maintains a user list, which is displayed in client GUI
 - Online user list is updated on all clients when users join or leave the chat room  
 
-### Instructions
+### ▷ Instructions
 - Start the server first (main method: Main.java)
 - Start a client (main method: Login.java)
 - Enter a unique username to join the chat
@@ -58,6 +58,6 @@ Pic4&5:Describe the chat of a user of a windows 10 virtual machine with a user o
 Pic6,7&8:Describe the chat that users of windows 11 log out
 </p>
 
-## Author: F.O.G_ntp(NguyenThanhPhong)
+### ▷ Author: F.O.G_ntp(NguyenThanhPhong)
 
  
