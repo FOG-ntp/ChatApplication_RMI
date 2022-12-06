@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
+//class xử lí chứac năng Chọn FIle
 public class FileChooser extends JPanel implements PropertyChangeListener {
 
     private int width, height;
@@ -19,12 +20,15 @@ public class FileChooser extends JPanel implements PropertyChangeListener {
     private static final int ACCSIZE = 155;
     private final Color bg;
 
+    
+    //Mặc định flowLayout sẽ thiết lập kích thước cho các component con là file được chọn
     public FileChooser() {
         setPreferredSize(new Dimension(ACCSIZE, -1));
         bg = getBackground();
     }
 
     @Override
+    //Xử lí với các tệp được chọn để lấy đươngf dãn của file và chuyển đổi tên file nếu là file ảnh
     public void propertyChange(PropertyChangeEvent e) {
         String propertyName = e.getPropertyName();
         if (propertyName.equals(JFileChooser.SELECTED_FILE_CHANGED_PROPERTY)) {
@@ -37,6 +41,7 @@ public class FileChooser extends JPanel implements PropertyChangeListener {
                 name = selection.getAbsolutePath();
             }
             if ((name != null)
+                    //chuyển đổi kí tự endsWith thành viết thường thông qua phương thức LowerCase
                     && name.toLowerCase().endsWith(".jpg")
                     || name.toLowerCase().endsWith(".jpeg")
                     || name.toLowerCase().endsWith(".gif")
@@ -49,6 +54,7 @@ public class FileChooser extends JPanel implements PropertyChangeListener {
         }
     }
 
+    //Xử lí resizing kích thước của ảnh được chọn
     private void scaleImage() {
         width = image.getWidth(this);
         height = image.getHeight(this);
@@ -73,6 +79,7 @@ public class FileChooser extends JPanel implements PropertyChangeListener {
     }
 
     @Override
+    //Hàm thực hiện in ra những component đã được xử lí
     public void paintComponent(Graphics g) {
         g.setColor(bg);
         g.fillRect(0, 0, ACCSIZE, getHeight());

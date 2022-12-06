@@ -58,19 +58,25 @@ public class Main extends javax.swing.JFrame {
         open();
     }
 
+    //Xử lí khung nhập chat và các tác vụ khác như gửi file,ảnh,emoji hay là ghi âm
     private void open() {
         setIconImage(new ImageIcon(getClass().getResource("/icon/icon.png")).getImage());
+        //add các panel
         popUp.add(panel);
         popUp_emoji.add(panel_emoji);
         popMix.add(panelMix);
         popMix.setBackground(new Color(0, 0, 0, 0));
+        //ghi lại những frame hiện có
         Method.setFram(this);
+        //khởi tạo Scrolling cho các panel khung chat và danh sách người dùng
         new Scrolling(panelChat);
         new Scrolling(panelFriend);
-        Method.setTextFieldSyle(txt, "Type a message here ...");
+        //thực hiện ghi lại nội dung nhập tin nhắn
+        Method.setTextFieldSyle(txt, "Nhập nội dung tin nhắn tại đây ...");
         for (int i = 0; i < 10; i++) {
             cmdSendActionPerformed(null);
         }
+        //Xử lí ghi Emoji thuộc Emoji_Group Green
         Emoji_Group eg1 = new Emoji_Group("emoji_green.png", 28);
         eg1.setName("emoji_green");
         eg1.addActionListener(new ActionListener() {
@@ -80,6 +86,8 @@ public class Main extends javax.swing.JFrame {
             }
         });
         panelGroup.add(eg1);
+        
+        //Xử lí ghi Emoji thuộc Emoji_Group Yellow
         Emoji_Group eg2 = new Emoji_Group("emoji_yellow.png", 28);
         eg2.setName("emoji_yellow");
         eg2.addActionListener(new ActionListener() {
@@ -157,7 +165,6 @@ public class Main extends javax.swing.JFrame {
 
         panel.setBackground(new java.awt.Color(255, 255, 255));
 
-        cmdPhoto.setBackground(new java.awt.Color(255, 255, 255));
         cmdPhoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/photo.png"))); // NOI18N
         cmdPhoto.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/photo_click.png"))); // NOI18N
         cmdPhoto.addActionListener(new java.awt.event.ActionListener() {
@@ -166,7 +173,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        cmdEmoji.setBackground(new java.awt.Color(255, 255, 255));
         cmdEmoji.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/emoji.png"))); // NOI18N
         cmdEmoji.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/emoji_click.png"))); // NOI18N
         cmdEmoji.addActionListener(new java.awt.event.ActionListener() {
@@ -175,7 +181,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        cmdFile.setBackground(new java.awt.Color(255, 255, 255));
         cmdFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/file.png"))); // NOI18N
         cmdFile.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/file_click.png"))); // NOI18N
         cmdFile.addActionListener(new java.awt.event.ActionListener() {
@@ -184,7 +189,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        cmdMicro.setBackground(new java.awt.Color(255, 255, 255));
         cmdMicro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/microphone.png"))); // NOI18N
         cmdMicro.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/microphone_click.png"))); // NOI18N
         cmdMicro.addActionListener(new java.awt.event.ActionListener() {
@@ -355,7 +359,7 @@ public class Main extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Khmer Chat");
+        setTitle("VKU Chat");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -404,11 +408,11 @@ public class Main extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Khmer SBBIC Serif", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel1.setText("List Friend");
+        jLabel1.setText("Danh sách người dùng");
 
         jLabel2.setFont(new java.awt.Font("Khmer SBBIC Serif", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel2.setText("Real Chat");
+        jLabel2.setText("Nội dung");
 
         cmdMore.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/more.png"))); // NOI18N
         cmdMore.setBorder(null);
@@ -422,10 +426,9 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        cmdLogOut.setBackground(new java.awt.Color(255, 255, 255));
         cmdLogOut.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         cmdLogOut.setForeground(new java.awt.Color(51, 51, 51));
-        cmdLogOut.setText("Sign out");
+        cmdLogOut.setText("Đăng xuất");
         cmdLogOut.setColorClick(new java.awt.Color(255, 255, 255));
         cmdLogOut.setColorOver(new java.awt.Color(243, 243, 243));
         cmdLogOut.setFocusable(false);
@@ -505,8 +508,11 @@ public class Main extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    //Hàm thực hiện ghi ra danh sách những emoji
     private void setEmoji(Emoji_Group eg1) {
+        //Làm trống PanelEmoji
         panelEmoji.removeAll();
+        //Đếm tất cả các emoji hiện có và ghi lại
         for (int i = 1; i <= eg1.getIcons(); i++) {
             Emoji emo = new Emoji(eg1.getName() + " (" + i + ").png");
             emo.addActionListener(new ActionListener() {
@@ -515,11 +521,16 @@ public class Main extends javax.swing.JFrame {
                     setEmoji(emo.getName());
                 }
             });
+            //sau khi ghi lại được thì thực hiện add những emoji đó vào Panel chưa emoji
             panelEmoji.add(emo);
         }
+        //Xác thực lại sau khi các emoji mới được thêm vào panelEmoji và các thành phần cũ bị xoas đi
         panelEmoji.revalidate();
+        //yêu cầu component PanelEmoji repaint lại chính nó sau khi revalidate
         panelEmoji.repaint();
     }
+    
+    //Xửa lí hành động SendMessage
     private void cmdSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSendActionPerformed
         if (txt.getName().equals("have") && !txt.getText().equals("")) {
             try {
@@ -531,10 +542,13 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmdSendActionPerformed
 
+    //Xử lí hành động hiển thị những chức năng khác như gửi ảnh, gửi file, emoji và ghi âm
     private void cmdMoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdMoreActionPerformed
         popUp.show(cmdMore, -10, -155);
     }//GEN-LAST:event_cmdMoreActionPerformed
 
+    
+    //Xử lí hành động typed của người dùng
     private void txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKeyTyped
         if (evt.getKeyChar() == 10) {
             cmdSendActionPerformed(null);
@@ -545,12 +559,15 @@ public class Main extends javax.swing.JFrame {
     private int currentID = 0;
 
     private void start() {
+        //khởi tạo thread
         th = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    //nếu thread đã được khởi tạo thì thục hiện
                     while (true) {
-                        System.out.println("waiting message ...");
+                        //thực hiện getMessage, người dùng mới, Phôto,File,Emoji,Sound, File
+                        System.out.println("đợi tin nhắn ...");
                         Message ms = (Message) Method.getIn().readObject();
                         String status = ms.getStatus();
                         if (status.equals("Message")) {
@@ -586,20 +603,25 @@ public class Main extends javax.swing.JFrame {
         });
         th.start();
     }
+    
+    //Mở của sổ frame
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         start();
     }//GEN-LAST:event_formWindowOpened
 
+    //Thiết lập hiển thị ảnh trên đoạn chat
     private void cmdPhotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdPhotoActionPerformed
-        popUp.setVisible(false);
+        popUp.setVisible(false);//Không hiển thị popup
         setImage();
     }//GEN-LAST:event_cmdPhotoActionPerformed
 
+    //Thiết lập hiển trị emoji trên đoạn chat
     private void cmdEmojiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdEmojiActionPerformed
-        popUp.setVisible(false);
-        popUp_emoji.show(txt, 5, -365);
+        popUp.setVisible(false);//Không hiển thị popup mới
+        popUp_emoji.show(txt, 5, -365);// hiển thị emoji với kích thức bên
     }//GEN-LAST:event_cmdEmojiActionPerformed
 
+    //Thiết lập hiển thị File trong đoạn chat
     private void cmdFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdFileActionPerformed
         try {
             popUp.setVisible(false);
@@ -609,16 +631,19 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmdFileActionPerformed
 
+    //Thiết lập hiển thị popup ghi âm
     private void cmdMicroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdMicroActionPerformed
         popMix.show(txt, 170, -90);
     }//GEN-LAST:event_cmdMicroActionPerformed
 
+    //Thiết lập popup ghi âm khi bắt đầu
     private void cmdMixMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmdMixMousePressed
         cmdMix.setBackground(new Color(94, 197, 95));
         cmdMix.setText("Starting");
         Method.getRecoder().captureAudio();
     }//GEN-LAST:event_cmdMixMousePressed
 
+    //Xử lí thiết lập popup ghi âm sau khi xong
     private void cmdMixMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmdMixMouseReleased
         try {
             cmdMix.setBackground(new Color(242, 67, 67));
@@ -630,8 +655,9 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmdMixMouseReleased
 
+    //Xử lí hoạt động Đăng xuất khoi server
     private void cmdLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLogOutActionPerformed
-        int c = JOptionPane.showConfirmDialog(this, "Are you sure you want to sign out ?", "Sign out", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int c = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất không ?", "Đăng xuất", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (c == JOptionPane.YES_OPTION) {
             try {
                 Method.getClient().close();
@@ -640,6 +666,7 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmdLogOutActionPerformed
 
+    //Xử lí đăng xuất bằng cách dispose cho đóng của sổ Main và trở về Login()
     private void signOut(String ms) {
         try {
             this.dispose();
@@ -649,18 +676,24 @@ public class Main extends javax.swing.JFrame {
         }
     }
 
+    //Xử lí nhận Tin nhắn
     private void getMessage(int ID, String ms) {
+        //Nếu ID nhận được có giá trị getMyID
         if (ID == Method.getMyID()) {
+            //và ID đó = currentID thì
             if (ID == currentID) {
                 Send_Box box = new Send_Box();
                 box.setMessage(ms);
+                //thực hiện add frame Send_Box (frame gửi đi tn nhắn)
                 panelChat.add(box);
             } else {
+                //Còn nếu ngược lại thì add frame Send_Box_New
                 Send_Box_New box = new Send_Box_New();
                 box.setMessage(ID, ms);
                 panelChat.add(box);
             }
         } else {
+            //Tương tự thì add frame Get_Box & Get_Box_New (frame nhận tin nhắn)
             if (ID == currentID) {
                 Get_Box box = new Get_Box();
                 box.setMessage(ms);
@@ -670,13 +703,16 @@ public class Main extends javax.swing.JFrame {
                 box.setMessage(ID, ms);
                 panelChat.add(box);
             }
-            playSound();
+            playSound();//THực hiện lấy âm thanh sound.wav
         }
         currentID = ID;
-        refresh(panelChat);
-        scrollToBottom(spChat);
+        refresh(panelChat);//Sau khi thực hiện xong thì làm mới lại chatPanel
+        scrollToBottom(spChat);// Và cho đoạn tin nhắn di chuyển xuống cuối trang nhằm hiển thi tin nhắn mới nhất
     }
 
+    //Tương tự với nhận tinn nhắn thì get Photo cũng so sánh ID và giá trị CurentID để thực hiện add lần lượt các frame
+    // là Send_Photo_Box, Send_Photo_Box_New,Get_Photo_Box, Get_Photo_Box_New
+    // để xử lí frame khi gử và nhận ảnh
     private void getPhoto(int ID, ImageIcon image) {
         if (ID == Method.getMyID()) {
             if (ID == currentID) {
@@ -705,6 +741,7 @@ public class Main extends javax.swing.JFrame {
         scrollToBottom(spChat);
     }
 
+    //Xử ls frame khi gửi và nhận Emoji cũng tương tự như Photo và MEssage 
     private void getEmoji(int ID, String emoji) {
         if (ID == Method.getMyID()) {
             if (ID == currentID) {
@@ -733,6 +770,7 @@ public class Main extends javax.swing.JFrame {
         scrollToBottom(spChat);
     }
 
+    //Xử lí frame gửi nhận File: giải thích tương tự trên
     private void getFile(int ID, String ms, ImageIcon icon) {
         if (ID == Method.getMyID()) {
             if (ID == currentID) {
@@ -761,6 +799,7 @@ public class Main extends javax.swing.JFrame {
         scrollToBottom(spChat);
     }
 
+    //Xử lí frame gửi nhận Ghi âm: giải thích tương tự trên
     private void getSound(int ID, byte[] sound, String time) {
         if (ID == Method.getMyID()) {
             if (ID == currentID) {
@@ -789,79 +828,112 @@ public class Main extends javax.swing.JFrame {
         scrollToBottom(spChat);
     }
 
+    //Hàm xử lí download file
     private void download(Message ms) {
         try {
+            //getName của file đc chọn download
             File file = new File(ms.getName());
+            //Ghi dữ liệu file được chọn theo định byte stream
             FileOutputStream out = new FileOutputStream(file);
             out.write(ms.getData());
             out.close();
         } catch (Exception e) {
+            //Nếu không thực hiện được trả về status báo lỗi download
             showStatus("Error : can't download");
         }
     }
 
+    //Hàm xử lí khi có thê người dùng mới truy cập
     private void newFriend(ImageIcon image, int ID, String name, String time) {
+        //Khởi tạo 1 frame Friend_Box
         Friend_Box friend = new Friend_Box();
+        //Thực hiện đọc Image, ID, name, thời gian truy cập của người dùng đó
         friend.set(image, ID, name, time);
+        //thực hiện put ID thông qua giá trị friend bằng cách getFriend thuộc class Method xử lí
         Method.getFriends().put(ID, friend);
         if (Method.getMyName().equalsIgnoreCase(name)) {
             Method.setMyID(ID);
             friend.itMe();
         }
+        //thực hiện add người dùng mới vào PanelFriend
         panelFriend.add(friend);
+        //refresh lại PanelFriend
         refresh(panelFriend);
     }
 
+    //Hàm xử lí người dùng truy cập lỗi để thực hiện remove ID cảu người dùng đó thong qua bỏ đi việc đọc ID người dùng bằng function Method
     private void errorFrient(int ID) {
         panelFriend.remove((Component) Method.getFriends().get(ID));
         Method.getFriends().remove(ID);
         refresh(panelFriend);
     }
 
+    //Hàm xử lí làm mới như làm mới danh sách người dùng hoặc chatPanel
     private void refresh(Component obj) {
         obj.revalidate();
         obj.repaint();
     }
 
+    //Xử lí setImage được chọn
     private void setImage() {
+        //Khởi tạo giá trị cho File được chọn
         JFileChooser ch = new JFileChooser();
+        //Khởi tạo giá trị preview để hiển thị trước thông tin File chọn
         FileChooser preview = new FileChooser();
+        //Thiết lập thành phần phụ
         ch.setAccessory(preview);
+        //Add và trả về PropertyChangeListener mà chịu thrasch nhiệm nghe các thay đổi từ ch(File đc chọn) và cập nhật cho preview
         ch.addPropertyChangeListener(preview);
+        //Thiết lập trình lọc file hiện tại
         ch.setFileFilter(new FileFilter() {
             @Override
+             //Hàm trả về tên của file chọn
             public boolean accept(File file) {
                 String name = file.getName();
                 return file.isDirectory() || name.endsWith(".png") || name.endsWith(".PNG") || name.endsWith("jpg") || name.endsWith("JPG");
             }
 
             @Override
+            //Nhận miêu tả file và trả về pnj,jpg
             public String getDescription() {
                 return "png,jpg";
             }
         });
+        //Hàm hiển thị nội dung của ImageIcon được chọn
         int c = ch.showOpenDialog(this);
         if (c == JFileChooser.APPROVE_OPTION) {
             ImageIcon image = new ImageIcon(ch.getSelectedFile().getAbsolutePath());
+            //Khi ImageIcon có được đầy đủ điều kiện là SelectedFile và AbsolutePath thì thực hiện 
             try {
+                //SendPhoto thông qua class Method
                 Method.sendPhoto(image);
             } catch (Exception e) {
+                //Nếu không thì xét trạng thái báo lỗi khi gửi ảnh
                 showStatus("Error : Can't send photo");
             }
         }
     }
 
+    //Hàm xử lí setFile được chọn
     private void setFile() throws Exception {
+        //Khởi tạo giá trị cho File được chọn
         JFileChooser ch = new JFileChooser();
+        //Khởi tạo giá trị preview để hiển thị trước thông tin File chọn
         FileChooser preview = new FileChooser();
+        //Thiết lập thành phần phụ
         ch.setAccessory(preview);
+        //Add và trả về PropertyChangeListener mà chịu thrasch nhiệm nghe các thay đổi từ ch(File đc chọn) và cập nhật cho preview
         ch.addPropertyChangeListener(preview);
+        //Hiển thị DiaLog chọn file
         int c = ch.showOpenDialog(this);
         if (c == JFileChooser.APPROVE_OPTION) {
+            //Nếu file đó đuược SelectedFile thì sẽ thực hiện sendFile thông qua class Method
             Method.sendFile(ch.getSelectedFile());
         }
     }
 
+    
+    //Hàm xử lí cuộn trang xuống cuối cùng khi có tin nhắn mới ửi tới
     private void scrollToBottom(JScrollPane scrollPane) {
         JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
         AdjustmentListener downScroller = new AdjustmentListener() {
@@ -875,6 +947,7 @@ public class Main extends javax.swing.JFrame {
         verticalBar.addAdjustmentListener(downScroller);
     }
 
+    //Hàm xử lí ghi lại Emoji
     private void setEmoji(String emoji) {
         try {
             Method.sendEmoji(emoji);
@@ -883,6 +956,7 @@ public class Main extends javax.swing.JFrame {
         }
     }
 
+    //Hàm xử lí phát âm thanh sound.wav khi có tin nhắn mới gửi tới
     private void playSound() {
         new Thread(new Runnable() {
             @Override
@@ -906,6 +980,7 @@ public class Main extends javax.swing.JFrame {
         }
     });
 
+    //Hàm xử lí trạng thái của Client
     private void showStatus(String error) {
         if (timer.isRunning()) {
             lbStatus.setText("");

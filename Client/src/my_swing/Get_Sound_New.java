@@ -46,7 +46,7 @@ public class Get_Sound_New extends javax.swing.JPanel {
 
         lbName.setFont(new java.awt.Font("Khmer SBBIC Serif", 1, 12)); // NOI18N
         lbName.setForeground(new java.awt.Color(29, 118, 206));
-        lbName.setText("You");
+        lbName.setText("Bạn");
 
         play.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         play.setFocusable(false);

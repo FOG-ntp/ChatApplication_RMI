@@ -2,7 +2,7 @@ package function;
 
 import java.util.ArrayList;
 import javax.swing.JTextArea;
-
+//Thực hiện getter và setter để cập nhật hoặc lấy ra giá trị thuộc tính FileID, Text, ClienID, Client
 public class Method {
 
     public static int getFileID() {

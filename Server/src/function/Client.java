@@ -34,19 +34,27 @@ public class Client extends Thread {
     @Override
     public void run() {
         try {
+            //Sử dụng lớp ObjectInputStream để đọc tin nhắn
             in = new ObjectInputStream(socket.getInputStream());
+            //Sử dụng lớp ObjectOutputStream để show tin nhắn
             out = new ObjectOutputStream(socket.getOutputStream());
+            //Nêu xác nhận ID thì thực hiện addClient thông qua function Method
             ID = Method.addClient(this);
-            //  loop starting get message from client
+            //  Vòng lắp bắt đầu nhận tin nhắn từ Client
             while (true) {
+                //Đọc tin nhắn từ input stream
                 Message ms = (Message) in.readObject();
+                //getStatus
                 String status = ms.getStatus();
+                //Nếu status có giá trị New thì thực hiện :
                 if (status.equals("New")) {
+                    //get những giá trị như Name, Time, ImageProfile
                     userName = ms.getName().split("!")[0];
                     time = ms.getName().split("!")[1];
                     profile = ms.getImage();
-                    Method.getTxt().append("New Client name : " + userName + " has connected ...\n");
-                    //  list all friend send to new client login
+                    //Hiển thị Text với nội dung .... trên khung quản lí Server
+                    Method.getTxt().append("Người dùng mới : " + userName + " đã kết nối ...\n");
+                    // Danh sách tất cả người dùng gửi cho client mới đăng nhập
                     for (Client client : Method.getClients()) {
                         ms = new Message();
                         ms.setStatus("New");
@@ -54,9 +62,9 @@ public class Client extends Thread {
                         ms.setName(client.getUserName() + "!" + client.getTime());
                         ms.setImage(client.getProfile());
                         out.writeObject(ms);
-                        out.flush();
+                        out.flush();//Xóa nội dung bộ đêm của output stream
                     }
-                    //  send new client to old client
+                    // gửi client mới đến client cũ
                     for (Client client : Method.getClients()) {
                         if (client != this) {
                             ms = new Message();
@@ -68,8 +76,11 @@ public class Client extends Thread {
                             client.getOut().flush();
                         }
                     }
+                    //Khi status mang giá trị File thực hiện :
                 } else if (status.equals("File")) {
+                    //khởi tạo giá trị FileID và get thông qua function Method 
                     int fileID = Method.getFileID();
+                    //truyền vào biến fileN là tên file tên file
                     String fileN = ms.getName();
                     SimpleDateFormat df = new SimpleDateFormat("ddMMyyyyhhmmssaa");
                     String fileName = fileID + "!" + df.format(new Date()) + "!" + ms.getName().split("!")[0];
@@ -99,8 +110,10 @@ public class Client extends Thread {
 
         } catch (Exception e) {
             try {
+                //Remove người dùng khỏi server đang chạy
                 Method.getClients().remove(this);
-                Method.getTxt().append("Client Name : " + userName + " has been out of this server ...\n");
+                //Hiển thị message thông báo người dùng đó rời khỏi server
+                Method.getTxt().append("Người dùng có tên : " + userName + " đã ra khỏi máy chủ này ...\n");
                 for (Client s : Method.getClients()) {
                     Message ms = new Message();
                     ms.setStatus("Error");
@@ -124,10 +137,12 @@ public class Client extends Thread {
                 for (File f : file.listFiles()) {
                     if (f.getName().startsWith(fID)) {
                         try {
+                            //Đọc file thông qua lớp FleInputStream
                             FileInputStream ins = new FileInputStream(f);
                             byte data[] = new byte[ins.available()];
                             ins.read(data);
                             ins.close();
+                            //sau khi đọc file xong sẽ thiếtlaajp data và trạng thái của file đó
                             ms.setData(data);
                             ms.setStatus("GetFile");
                             out.writeObject(ms);
@@ -143,6 +158,8 @@ public class Client extends Thread {
         }).start();
     }
 
+    
+    //Getter Setter lấy giá trị các thuộc tính như Socket, Username, ObjectInputStream,ObjectOutStream, Time, ID,Profile
     public Socket getSocket() {
         return socket;
     }

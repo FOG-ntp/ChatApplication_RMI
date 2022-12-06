@@ -2,7 +2,8 @@ package message;
 
 import java.io.Serializable;
 import javax.swing.ImageIcon;
-
+//Thực hiện getter và setter để cập nhật hoặc lấy ra giá trị thuộc tính Status(Trạng thái hoạt động)
+//, ID (ID người dùng và FileID), Name(tên người dùng và tên file), Data và Image
 public class Message implements Serializable {
 
     private static final long serialVersionUID = 1234L;

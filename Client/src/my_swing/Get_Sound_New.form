@@ -118,7 +118,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ce" green="76" red="1d" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="You"/>
+        <Property name="text" type="java.lang.String" value="B&#x1ea1;n"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JProgressBar" name="play">

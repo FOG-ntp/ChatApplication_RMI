@@ -14,6 +14,7 @@ import javax.sound.sampled.TargetDataLine;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 
+//Hàm xử lý ghi âm
 public class Recoder {
 
     private boolean running;
@@ -26,6 +27,7 @@ public class Recoder {
 
     public Recoder() {
         try {
+            //getLine mọt loại DataLine mà từ đó dữ liệu âm thanh có thể đuwojc đọc từ AudioSystem
             line = (TargetDataLine) AudioSystem.getLine(info);
         } catch (Exception e) {
             System.err.println(e);
@@ -41,6 +43,7 @@ public class Recoder {
         return new AudioFormat(sampleRate, sampleSizeInBits, channels, signed, bigEndian);
     }
 
+    //Hàm dừng việc ghi dữ liệu chung vào file
     public ByteArrayOutputStream stop() {
         try {
             Thread.sleep(1000);
@@ -52,6 +55,7 @@ public class Recoder {
         return null;
     }
 
+    //Hàm xử lí ghi lại âm thanh khi bắt đầu
     public void captureAudio() {
         try {
             line.open(format);
@@ -86,6 +90,7 @@ public class Recoder {
         }
     }
 
+    //Hàm thực hiện chạy file Audio đã được ghi lại
     public void playAudio(byte[] audio, JProgressBar bar) {
         try {
             InputStream input = new ByteArrayInputStream(audio);
@@ -124,15 +129,15 @@ public class Recoder {
             System.err.println("Line unavailable: " + e);
         }
     }
-
+    //Dừng đoạn audio đang chạy
     public void stopPlay() {
         runPlay = false;
     }
-
+    //Nhận thời gian ghi âm
     public int getTime() {
         return time;
     }
-
+    //Ghi lại thời gian ghi âm
     public void setTime(int time) {
         this.time = time;
     }

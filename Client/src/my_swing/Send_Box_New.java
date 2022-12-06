@@ -63,7 +63,7 @@ public class Send_Box_New extends javax.swing.JPanel {
         lbName.setFont(new java.awt.Font("Khmer SBBIC Serif", 1, 12)); // NOI18N
         lbName.setForeground(new java.awt.Color(29, 118, 206));
         lbName.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lbName.setText("You");
+        lbName.setText("Bạn");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

@@ -15,16 +15,22 @@ import javax.swing.Timer;
 import javax.swing.filechooser.FileFilter;
 
 public class Login extends javax.swing.JFrame {
-
+    //KHởi tạo class Login
+    
     public Login() {
+        //Khởi tạo các Components cho giao diện đồ họa
         initComponents();
+        //chạy hàm open()
         open();
     }
 
+    //Hàm mở giao diện Login client
     private void open() {
+        //setIconImage là lấy hình ảnh của nguwoif dùng bằng csch getResource
         setIconImage(new ImageIcon(getClass().getResource("/icon/icon.png")).getImage());
-        Method.setTextFieldSyle(txtUser, "User Name");
-        Method.setTextFieldSyle(txtIP, "IP Address");
+        
+        Method.setTextFieldSyle(txtUser, "Tên người dùng");
+        Method.setTextFieldSyle(txtIP, "Địa chỉ IP");
         showStatus(ms);
     }
 
@@ -163,24 +169,31 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    //Hàm xử lí Login Action
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
         try {
+            //Validation Tên người dùng
             if (txtUser.getText().equals("") || !txtUser.getName().equals("have")) {
                 txtUser.grabFocus();
-                showStatus("Please input your user name");
+                showStatus("Vui lòng nhập tên người dùng của bạn");
             } else {
                 if (txtUser.getText().trim().length() > 15) {
                     txtUser.grabFocus();
-                    showStatus("User name must less than 15 character");
+                    showStatus("Tên người dùng phải ít hơn 15 ký tự");
                 } else {
+                    //lấy giá trị IP và thực hiện trim() khoảng trống
                     String IP = txtIP.getText().trim();
                     if (txtIP.getText().equals("") || !txtIP.getName().equals("have")) {
+                        //lấy giá trị IP = "localhost"
                         IP = "localhost";
                         System.err.println("have");
                     }
                     String userName = txtUser.getText().trim();
+                    //Khi đã connect được đầy đủ ImageIcon, userName và địa chỉ IP thì thực hiện
                     Method.connect(profile_pic, userName, IP);
+                    //Đóng frame login hiện tại
                     this.dispose();
+                    //Và chạy hàm main 
                     Main.main(null);
                 }
 
@@ -200,24 +213,33 @@ public class Login extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cmdLoginActionPerformed
 
+    //Hàm xử lí ấn hai lần và chọn ImageIcon cho người dùng
     private void borderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_borderMouseClicked
         if (evt.getClickCount() == 2 && SwingUtilities.isLeftMouseButton(evt)) {
+            //Khởi tạo giá trị cho File được chọn
             JFileChooser ch = new JFileChooser();
+            //Khởi tạo giá trị preview để hiển thị trước thông tin File chọn
             FileChooser preview = new FileChooser();
+            //Thiết lập thành phần phụ
             ch.setAccessory(preview);
+            //Add và trả về PropertyChangeListener mà chịu thrasch nhiệm nghe các thay đổi từ ch(File đc chọn) và cập nhật cho preview
             ch.addPropertyChangeListener(preview);
+            //Thiết lập trình lọc file hiện tại
             ch.setFileFilter(new FileFilter() {
                 @Override
+                //Hàm trả về tên của file chọn
                 public boolean accept(File file) {
                     String name = file.getName();
                     return file.isDirectory() || name.endsWith(".png") || name.endsWith(".PNG") || name.endsWith("jpg") || name.endsWith("JPG");
                 }
 
                 @Override
+                //Nhận miêu tả file và trả về pnj,jpg
                 public String getDescription() {
                     return "png,jpg";
                 }
             });
+            //Hàm hiển thị nội dung của ImageIcon được chọn
             int opt = ch.showOpenDialog(this);
             if (opt == JFileChooser.APPROVE_OPTION) {
                 ImageIcon image = new ImageIcon(ch.getSelectedFile().getAbsolutePath());
@@ -227,12 +249,14 @@ public class Login extends javax.swing.JFrame {
                 } else {
                     img = image.getImage().getScaledInstance(-1, 100, Image.SCALE_SMOOTH);
                 }
+                //Sau khi thực hiện chọn file và cấu hình kích thước thì set ImageIcon cho profile_pic
                 profile_pic = new ImageIcon(img);
                 profile.setIcon(profile_pic);
             }
         }
     }//GEN-LAST:event_borderMouseClicked
 
+    //hàm xử lí typed của người dùng như là 
     private void txtUserKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserKeyTyped
         if (evt.getKeyChar() == 10) {
             txtIP.grabFocus();
@@ -241,7 +265,7 @@ public class Login extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtUserKeyTyped
-
+    //Xử lí Validation cho địa chỉ IP
     private void txtIPKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIPKeyTyped
         if (evt.getKeyChar() == 10) {
             cmdLoginActionPerformed(null);

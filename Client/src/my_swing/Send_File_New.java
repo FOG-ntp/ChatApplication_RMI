@@ -87,7 +87,7 @@ public class Send_File_New extends javax.swing.JPanel {
         lbName.setFont(new java.awt.Font("Khmer SBBIC Serif", 1, 12)); // NOI18N
         lbName.setForeground(new java.awt.Color(29, 118, 206));
         lbName.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lbName.setText("You");
+        lbName.setText("Bạn");
 
         lbFileName.setFont(new java.awt.Font("Khmer SBBIC Serif", 0, 13)); // NOI18N
         lbFileName.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/file_1.png"))); // NOI18N

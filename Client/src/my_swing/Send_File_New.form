@@ -113,7 +113,7 @@
           <Color blue="ce" green="76" red="1d" type="rgb"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="11"/>
-        <Property name="text" type="java.lang.String" value="You"/>
+        <Property name="text" type="java.lang.String" value="B&#x1ea1;n"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="lbFileName">

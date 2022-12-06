@@ -29,14 +29,17 @@ import my_swing.ImageViewer;
 
 public class Method {
 
+    //Hàm xử lí đọc Recoder
     public static Recoder getRecoder() {
         return recoder;
     }
 
+    //Hàm xử lí ghi Recoder
     public static void setRecoder(Recoder aRecoder) {
         recoder = aRecoder;
     }
 
+    //Khởi tạo những giá trị ban đầu
     private static HashMap<Integer, Friend> friends = new HashMap<>();
     private static Socket client;
     private static ObjectOutputStream out;
@@ -47,12 +50,14 @@ public class Method {
     private static JFrame fram;
     private static Recoder recoder = new Recoder();
 
+    //Hàm xử lí ghi lại trường nhập tin nhắn
     public static void setTextFieldSyle(JTextField txt, String style) {
         txt.setName("");
         txt.setForeground(new Color(186, 186, 186));
         txt.setText(style);
         txt.addFocusListener(new FocusAdapter() {
             @Override
+            //Xử lí focus vào text field
             public void focusGained(FocusEvent fe) {
                 if (txt.getName().equals("")) {
                     txt.setForeground(new Color(51, 51, 51));
@@ -61,6 +66,7 @@ public class Method {
             }
 
             @Override
+            //Xử lí khi bỏ focus thuộc text feild
             public void focusLost(FocusEvent fe) {
                 if (txt.getText().trim().equals("")) {
                     txt.setForeground(new Color(186, 186, 186));
@@ -83,6 +89,7 @@ public class Method {
         });
     }
 
+    //Hàm xử lí connect client với server
     public static void connect(ImageIcon icon, String userName, String IP) throws Exception {
         client = new Socket(IP, 5000);
         out = new ObjectOutputStream(client.getOutputStream());
@@ -99,54 +106,82 @@ public class Method {
         time = t;
     }
 
+    //Hàm xử lí gửi message
     public static void sendMessage(String text) throws Exception {
+        //khởi tạo giá trị
         Message ms = new Message();
+        //ghi trạng thái Message
         ms.setStatus("Message");
+        //ghi lại ID thông qua getMyID thuộc class Method
         ms.setID(Method.getMyID());
+        //ghi lại đoạn tin nhắn với text nhập vào
         ms.setMessage(text);
         out.writeObject(ms);
         out.flush();
     }
 
+    
+    //Hàm xử lí gửi photo
     public static void sendPhoto(ImageIcon photo) throws Exception {
+        //khởi tạo giá trị
         Message ms = new Message();
+        //ghi trạng thái Photo
         ms.setStatus("Photo");
+        //ghi lại ID thông qua getMyID thuộc class Method
         ms.setID(Method.getMyID());
+        //ghi lại Image với giá trị photo
         ms.setImage(photo);
+        //Ghi lại Object
         out.writeObject(ms);
         out.flush();
     }
 
+    //Hàm xử lí gửi file
     public static void sendFile(File file) throws Exception {
+        //Đọc dữ liệu theo định dạng byte từ một input file 
         FileInputStream in = new FileInputStream(file);
         byte data[] = new byte[in.available()];
+        //đọc data từ file
         in.read(data);
         in.close();
+        //convert độ lớn của file
         String fileSize = convertSize(file.length());
+        //khởi tạo giá trị của tin nhắn cần gửi
         Message ms = new Message();
+        //ghi trạng thái Photo
         ms.setStatus("File");
+        //ghi lại ID thông qua getMyID thuộc class Method
         ms.setID(Method.getMyID());
+        //ghi lại dữ liệu file
         ms.setData(data);
+        //ghi lại tên file cần gửi là tên file kèm kích thước file
         ms.setName(file.getName() + "!" + fileSize);
         out.writeObject(ms);
         out.flush();
     }
 
+    //Hàm xử lí gửi Emoji
     public static void sendEmoji(String emoji) throws Exception {
+        //khởi tạo giá trị tin nhắn cần gửi
         Message ms = new Message();
+        //ghi trạng thái Emoji
         ms.setStatus("Emoji");
+        //ghi lại ID thông qua getMyID thuộc class Method
         ms.setID(Method.getMyID());
+        //ghi lại tin nhắn với giá trị emoji được chọn
         ms.setMessage(emoji);
         out.writeObject(ms);
         out.flush();
     }
 
+    //Hàm xử lí thời gian 
     private static String getDurationString(int seconds) {
         int minutes = (seconds % 3600) / 60;
         seconds = seconds % 60;
         return oneDigitString(minutes) + ":" + twoDigitString(seconds);
     }
 
+    
     private static String twoDigitString(int number) {
         if (number == 0) {
             return "00";
@@ -157,6 +192,7 @@ public class Method {
         return String.valueOf(number);
     }
 
+    
     private static String oneDigitString(int number) {
         if (number == 0) {
             return "0";
@@ -167,36 +203,50 @@ public class Method {
         return String.valueOf(number);
     }
 
+    //Hàm xử lí gửi ghi âm
     public static void sendSound(ByteArrayOutputStream sount, int time) throws Exception {
+        //khởi tạo giá trị tin nhắn cần gửi
         Message ms = new Message();
+        //Thiết lập trạng thái Sound
         ms.setStatus("Sound");
+        //ghi lại ID thông qua getMyID thuộc class Method
         ms.setID(Method.getMyID());
+        //ghi lại tin nhắn với giá trị thời gian
         ms.setMessage(getDurationString(time) + "!" + time);
+        //Ghi lại dữ liệu âm thanh
         ms.setData(sount.toByteArray());
         out.writeObject(ms);
         out.flush();
     }
 
+    //Hàm xử lí download file
     public static void downloadFile(int ID, String name) {
         try {
+            //phân tách chuỗi qua "\\"
             String ex[] = name.split("\\.");
             String x = ex[ex.length - 1];
             JFileChooser ch = new JFileChooser();
+            //Ghi lại file đc chọn
             ch.setSelectedFile(new File(name));
+            //Hiển thị Dialog lưu file
             int c = ch.showSaveDialog(Main.getFrames()[0]);
             if (c == JFileChooser.APPROVE_OPTION) {
                 File f = ch.getSelectedFile();
+                //nếu file đuwojc chọn, xử lí lựa chọn yes/no trong dialog
                 if (f.exists()) {
-                    int click = JOptionPane.showConfirmDialog(Main.getFrames()[0], "This file name has already do you want to replace", "Save File", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    int click = JOptionPane.showConfirmDialog(Main.getFrames()[0], "Tên tệp này đã có bạn có muốn thay thế không", "Lưu File", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     if (click != JOptionPane.YES_OPTION) {
                         return;
                     }
                 }
+                //GHi lại đường dẫn trang
                 String parth = f.getAbsolutePath();
                 if (!parth.endsWith("." + x)) {
                     parth += "." + x;
                 }
+                //Khởi tạo giá trị tin nhắn
                 Message ms = new Message();
+                // thiết lập trạng thái download
                 ms.setStatus("download");
                 ms.setID(Method.getMyID());
                 ms.setName(parth);
@@ -221,6 +271,7 @@ public class Method {
     }
     private static final String[] fileSizeUnits = {"bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
 
+    //Hàm xử lí quy đổi kích thước dung lượng file gửi đi
     private static String convertSize(double bytes) {
         String sizeToReturn;
         DecimalFormat df = new DecimalFormat("0.#");
@@ -244,14 +295,17 @@ public class Method {
         return new java.awt.Font("Khmer SBBIC Serif", 1, 12);
     }
 
+    
+    //đọc danh sách người dùng bằng cách HashMap thông qua interface Friend
     public static HashMap<Integer, Friend> getFriends() {
         return friends;
     }
-
+    //ghi lại danh sách người dùng đọc đc
     public static void setFriends(HashMap<Integer, Friend> aFriends) {
         friends = aFriends;
     }
 
+   
     public static ObjectOutputStream getOut() {
         return out;
     }
